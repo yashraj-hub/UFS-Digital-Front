@@ -1,0 +1,16 @@
+{
+  "name": "UFS Digital",
+  "short_name": "UFS Digital",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b2f3a",
+  "theme_color": "#0f5a6b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+

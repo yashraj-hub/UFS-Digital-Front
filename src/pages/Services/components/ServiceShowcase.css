@@ -1,0 +1,140 @@
+.services-support-section {
+  position: relative;
+  padding: 5rem 0;
+  background: #ffffff;
+}
+
+.services-support__shell {
+  display: grid;
+  gap: 2.75rem;
+}
+
+.services-support__header {
+  position: relative;
+  max-width: none;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.services-support__eyebrow {
+  margin: 0;
+  color: #e0b67a;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.services-support__header h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: #333333;
+  text-wrap: balance;
+  text-align: justify;
+}
+
+.services-support__lead {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  color: #475569;
+  font-size: 1.04rem;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.005em;
+  text-align: justify;
+}
+
+.services-support__cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.75rem 2.4rem;
+  align-items: stretch;
+}
+
+.services-support__benefit {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  min-height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.services-support__benefit h3 {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin: 0;
+  color: #333333;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.services-support__benefit h3 i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  color: #38779e;
+  font-size: 1.28rem;
+  margin-top: 0.05rem;
+}
+
+.services-support__benefit p {
+  margin: 0;
+  padding-left: calc(38px + 0.85rem);
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-align: justify;
+}
+
+@media (max-width: 1100px) {
+  .services-support__shell {
+    gap: 2.25rem;
+  }
+
+  .services-support__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.8rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .services-support-section {
+    padding: 5rem 0;
+  }
+
+  .services-support__header h2 {
+    font-size: clamp(2.05rem, 10vw, 3rem);
+  }
+
+  .services-support__lead {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .services-support__cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .services-support__benefit h3 {
+    font-size: 1.08rem;
+  }
+
+  .services-support__benefit p {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+}

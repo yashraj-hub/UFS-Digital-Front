@@ -1,0 +1,20 @@
+.contact-map {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.contact-map-wrap::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 28px;
+  background: #fff;
+  border-radius: 0 0 0 16px;
+  z-index: 10;
+  pointer-events: none;
+}

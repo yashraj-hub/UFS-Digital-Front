@@ -1,0 +1,72 @@
+.services-page {
+  position: relative;
+  background:
+    radial-gradient(circle at top left, rgba(240, 177, 93, 0.08), transparent 24%),
+    radial-gradient(circle at 90% 8%, rgba(123, 196, 255, 0.06), transparent 20%),
+    linear-gradient(180deg, #08101a 0%, #0d1723 14%, #f6f4f0 14%, #f6f4f0 100%);
+  color: #102235;
+}
+
+.services-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.9rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.services-btn:hover {
+  transform: translateY(-1px);
+}
+
+.services-btn--primary {
+  background: #f4f0e9;
+  color: #0f1726;
+  box-shadow: 0 12px 28px rgba(8, 16, 26, 0.18);
+}
+
+.services-btn--primary:hover {
+  background: #ffffff;
+  color: #0f1726;
+}
+
+.services-btn--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f6f1e9;
+  border-color: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.services-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(240, 177, 93, 0.45);
+}
+
+.services-surface {
+  border: 1px solid rgba(37, 94, 129, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 20px 40px rgba(25, 37, 50, 0.08);
+  color: #1b2a39;
+}
+
+.services-surface--dark {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(8, 16, 26, 0.18);
+  color: #f7f3ec;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}

@@ -1,0 +1,198 @@
+.rich-editor {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.re-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.re-btn {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: #374151;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.re-btn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+.re-btn.is-active {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.re-btn.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.re-select {
+  height: 30px;
+  padding: 0 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #fff;
+  color: #374151;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.re-divider {
+  width: 1px;
+  height: 22px;
+  background: #e2e8f0;
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+
+/* Color picker */
+.re-color-wrap {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.re-color-wrap:hover {
+  border-color: #93c5fd;
+  background: #e2e8f0;
+}
+
+.re-color-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.re-color-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+/* Bubble menu */
+.re-bubble {
+  display: flex;
+  gap: 4px;
+  padding: 6px 8px;
+  background: #1e293b;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.re-bubble__color {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.1s;
+}
+
+.re-bubble__color:hover {
+  transform: scale(1.25);
+}
+
+/* Editor content area */
+.re-content {
+  min-height: 320px;
+}
+
+.re-content .tiptap {
+  min-height: 320px;
+  padding: 14px 16px;
+  outline: none;
+  font-size: 0.96rem;
+  color: #0f172a;
+  line-height: 1.75;
+}
+
+.re-content .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* Typography inside editor */
+.re-content .tiptap h1 { font-size: 1.7rem; font-weight: 800; margin: 1.2rem 0 0.5rem; color: #0f172a; }
+.re-content .tiptap h2 { font-size: 1.35rem; font-weight: 700; margin: 1rem 0 0.4rem; color: #0f172a; }
+.re-content .tiptap h3 { font-size: 1.1rem; font-weight: 700; margin: 0.8rem 0 0.3rem; color: #0f172a; }
+.re-content .tiptap p { margin: 0 0 0.8rem; }
+.re-content .tiptap ul, .re-content .tiptap ol { padding-left: 1.4rem; margin: 0 0 0.8rem; }
+.re-content .tiptap li { margin-bottom: 0.25rem; }
+.re-content .tiptap blockquote { border-left: 3px solid #38779e; padding-left: 1rem; color: #4b5563; margin: 0.8rem 0; font-style: italic; }
+.re-content .tiptap code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; font-size: 0.88em; }
+.re-content .tiptap pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 0.8rem 0; }
+.re-content .tiptap a { color: #2563eb; text-decoration: underline; }
+.re-content .tiptap hr { border: none; border-top: 1px solid #e2e8f0; margin: 1rem 0; }
+
+/* Image — resizable */
+.re-content .tiptap img {
+  max-width: 100%;
+  border-radius: 6px;
+  cursor: default;
+}
+
+.re-content .tiptap .tiptap-image-resizer {
+  display: inline-block;
+  position: relative;
+}
+
+/* YouTube embed */
+.re-content .tiptap .youtube-wrapper,
+.re-content .tiptap div[data-youtube-video] {
+  margin: 1rem 0;
+}
+
+.re-content .tiptap iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  border: 0;
+}
+
+/* Readonly mode */
+.rich-editor--readonly .re-content .tiptap {
+  background: #f4f7fa;
+  color: #5d6878;
+  cursor: default;
+}

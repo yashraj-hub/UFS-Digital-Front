@@ -1,0 +1,255 @@
+.bfsi-section {
+  padding: 6rem 0;
+  background-color: #ffffff;
+  /* simple white */
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.bfsi-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.bfsi-header {
+  text-align: left;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.bfsi-section.is-visible .bfsi-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bfsi-eyebrow {
+  margin: 0;
+  color: #f0c58a;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.bfsi-title {
+  margin: 0 0 1.15rem;
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: #25272b;
+  text-wrap: balance;
+  text-align: justify;
+}
+
+.bfsi-title span {
+  color: #38779e;
+}
+
+.bfsi-subtitle {
+  color: #475569;
+  font-size: 1.125rem;
+  width: 100%;
+  margin: 0;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.bfsi-simple-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 4rem 3rem;
+  margin-top: 2.5rem;
+}
+
+.bfsi-simple-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.bfsi-section.is-visible .bfsi-simple-item {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: var(--delay);
+}
+
+.bfsi-simple-title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #25272b;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.bfsi-simple-title i {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.bfsi-banking .bfsi-simple-title i {
+  color: #38779e;
+  background-color: none;
+}
+
+.bfsi-financial .bfsi-simple-title i {
+  color: #38779e;
+
+  background-color: none;
+}
+
+.bfsi-insurance .bfsi-simple-title i {
+  color: #38779e;
+
+  background-color: none;
+}
+
+.bfsi-digital .bfsi-simple-title i {
+  color: #38779e;
+  background-color: none;
+}
+
+.bfsi-simple-list {
+  list-style: none;
+  padding: 0 0 0 calc(40px + 0.85rem);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.bfsi-simple-list li {
+  position: relative;
+  padding: 0.25rem 0 0.25rem 2rem;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.6;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.bfsi-simple-list li::before {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  left: 0;
+  top: 0.4rem;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  transition: color 0.3s ease;
+}
+
+.bfsi-simple-list li:hover {
+  transform: translateX(4px);
+  color: #0f172a;
+}
+
+.bfsi-banking .bfsi-simple-list li:hover::before {
+  color: #38779e;
+}
+
+.bfsi-financial .bfsi-simple-list li:hover::before {
+  color: #38779e;
+}
+
+.bfsi-insurance .bfsi-simple-list li:hover::before {
+  color: #38779e;
+}
+
+@media (max-width: 768px) {
+  .bfsi-section {
+    padding: 4rem 0;
+  }
+
+  .bfsi-header {
+    margin-bottom: 3rem;
+  }
+
+  .bfsi-simple-grid {
+    grid-template-columns: 1fr;
+    gap: 1.85rem;
+    margin-top: 2.25rem;
+  }
+
+  .bfsi-title {
+    font-size: clamp(1.65rem, 7vw, 2.15rem);
+  }
+
+  .bfsi-subtitle {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  .bfsi-simple-title {
+    margin-bottom: 1rem;
+    font-size: 1.08rem;
+  }
+
+  .bfsi-simple-title i {
+    width: 34px;
+    height: 34px;
+    font-size: 1.05rem;
+  }
+
+  .bfsi-simple-list {
+    padding-left: calc(34px + 0.75rem);
+    gap: 0.65rem;
+  }
+
+  .bfsi-simple-list li {
+    padding: 0.18rem 0 0.18rem 1.6rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bfsi-section {
+    padding: 5rem 0;
+  }
+
+  .bfsi-header {
+    margin-bottom: 3rem;
+  }
+
+  .bfsi-simple-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem 1.4rem;
+    margin-top: 2.2rem;
+  }
+
+  .bfsi-simple-title {
+    margin-bottom: 1.1rem;
+    font-size: 1.02rem;
+    gap: 0.7rem;
+  }
+
+  .bfsi-simple-title i {
+    width: 34px;
+    height: 34px;
+    font-size: 1.08rem;
+  }
+
+  .bfsi-simple-list {
+    padding-left: calc(34px + 0.7rem);
+    gap: 0.68rem;
+  }
+
+  .bfsi-simple-list li {
+    padding-left: 1.55rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+}

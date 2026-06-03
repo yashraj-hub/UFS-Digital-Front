@@ -1,0 +1,302 @@
+/* ─── Section shell ─── */
+.our-business {
+  position: relative;
+  /* Beautiful Vibrant Orange Gradient */ background: linear-gradient(to bottom, rgba(20, 47, 53, 0.12), rgba(15, 47, 63, 0.28)),
+    linear-gradient(135deg, #255e81 0%, #327f99 60%, #235963 100%);
+}
+
+/* grain noise overlay */
+.our-business::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+/* dot mesh overlay */
+.our-business::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='2' cy='2' r='1.2' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-size: 32px 32px;
+}
+
+.our-business__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+  z-index: 1;
+  padding: 3rem 0;
+}
+
+/* ─── Header ─── */
+.our-business__header {
+  margin-bottom: 2rem;
+}
+
+.our-business__eyebrow {
+  margin: 0;
+  color: #f0c58a;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.our-business__header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.our-business__title {
+  margin: 0;
+  font-size: clamp(1.8rem, 2.8vw, 2.95rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+/* ─── Slide dots ─── */
+.our-business__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.3rem;
+}
+
+.our-business__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.our-business__dot.is-active {
+  background: #eaeaea;
+  transform: scale(1.4);
+}
+
+/* ─── Slides wrapper ─── */
+.our-business__slides-wrap {
+  position: relative;
+}
+
+.our-business__slide {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.our-business__slide.is-past {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+.our-business__slide.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+  pointer-events: auto;
+}
+
+/* ─── Card ─── */
+.our-business__card {
+  position: relative;
+  display: block;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+}
+
+.our-business__card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.20);
+}
+
+.our-business__card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      rgba(0, 0, 0, 0.05) 100%);
+  transition: opacity 0.4s ease;
+}
+
+.our-business__card:hover .our-business__card-overlay {
+  opacity: 0.9;
+}
+
+.our-business__card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1.5rem 1.6rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.our-business__card-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f5c97a;
+}
+
+.our-business__card-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.our-business__card-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+  max-width: 28ch;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .our-business {
+    height: auto !important;
+  }
+
+  .our-business__sticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    padding: 2.4rem 0 3rem;
+  }
+
+  .our-business__slide {
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .our-business__title {
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+  }
+
+  .our-business__card-content {
+    padding: 1.25rem 1.2rem 1.35rem;
+  }
+
+  .our-business__card-desc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .our-business__sticky {
+    height: auto;
+    min-height: 100vh;
+    padding: 4rem 0;
+  }
+
+  .our-business__slide {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .our-business__card {
+    aspect-ratio: 16 / 10;
+  }
+
+  .our-business__header-row {
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .our-business__title {
+    font-size: clamp(1.55rem, 7.2vw, 2.05rem);
+  }
+
+  .our-business__dots {
+    padding-bottom: 0;
+  }
+
+  .our-business__card-content {
+    padding: 1.15rem 1.1rem 1.2rem;
+  }
+
+  .our-business__card-desc {
+    display: -webkit-box;
+    max-width: none;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .our-business__sticky {
+    padding: 3.2rem 0;
+  }
+
+  .our-business__slide {
+    gap: 0.8rem;
+  }
+
+  .our-business__card {
+    aspect-ratio: 4 / 3;
+  }
+
+  .our-business__card-content {
+    padding: 1rem 1rem 1.05rem;
+  }
+
+  .our-business__card-title {
+    font-size: 1.1rem;
+  }
+
+  .our-business__card-desc {
+    font-size: 0.76rem;
+    -webkit-line-clamp: 3;
+  }
+}

@@ -1,0 +1,58 @@
+.brush-separator {
+  --brush-height: 150px;
+  --brush-offset-y: 45%;
+  --brush-base-x: 0px;
+  --brush-wave-distance: 40px;
+  --brush-scale-x: 1;
+  --brush-scale-y: 1;
+  height: var(--brush-height);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 120% 130%;
+  background-image: var(--brush-bg-image);
+  transform: translate3d(var(--brush-base-x), var(--brush-offset-y), 0)
+    scale(var(--brush-scale-x), var(--brush-scale-y));
+  will-change: transform, background-position;
+  pointer-events: none;
+  animation: brush-separator-wave 5.5s ease-in-out infinite;
+  z-index: -1111;
+}
+
+.brush-separator--bleed {
+  width: 100dvw;
+  margin-left: calc(50% - 50dvw);
+  margin-right: calc(50% - 50dvw);
+}
+
+.brush-separator--absolute {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  --brush-base-x: -50%;
+}
+
+@keyframes brush-separator-wave {
+  0% {
+    transform: translate3d(var(--brush-base-x), var(--brush-offset-y), 0)
+      scale(var(--brush-scale-x), var(--brush-scale-y));
+    background-position: 49% 100%;
+  }
+  50% {
+    transform: translate3d(var(--brush-base-x), calc(var(--brush-offset-y) + 1%), 0)
+      scale(var(--brush-scale-x), var(--brush-scale-y));
+    background-position: 51% 100%;
+  }
+  100% {
+    transform: translate3d(var(--brush-base-x), var(--brush-offset-y), 0)
+      scale(var(--brush-scale-x), var(--brush-scale-y));
+    background-position: 49% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brush-separator {
+    animation: none !important;
+    transform: translate3d(var(--brush-base-x), var(--brush-offset-y), 0)
+      scale(var(--brush-scale-x), var(--brush-scale-y)) !important;
+  }
+}

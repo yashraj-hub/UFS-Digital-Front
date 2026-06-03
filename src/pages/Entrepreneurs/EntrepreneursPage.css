@@ -1,0 +1,772 @@
+.entrepreneurs-page {
+  background: smokewhite;
+}
+
+.entrepreneurs-section {
+  padding: 5.5rem 0;
+}
+
+.entrepreneurs-why-scroll {
+  padding-top: 2rem;
+}
+
+
+.entrepreneurs-scroll-reveal {
+  opacity: 0;
+  transition:
+    opacity 0.72s ease;
+  transition-delay: calc(var(--reveal-index, 0) * 0.055s);
+}
+
+.entrepreneurs-scroll-reveal.is-visible {
+  opacity: 1;
+}
+
+.entrepreneurs-section--intro {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.entrepreneurs-section--warm {
+}
+
+.entrepreneurs-section--why-bfsi {
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.entrepreneurs-section--dark {
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(to bottom, rgba(20, 47, 53, 0.12), rgba(15, 47, 63, 0.28)),
+    linear-gradient(135deg, #255e81 0%, #327f99 60%, #235963 100%);
+}
+
+.entrepreneurs-section--feature {
+  padding-top: 3rem;
+}
+
+.entrepreneurs-section--cta {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.entrepreneurs-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 50vh;
+  color: #f4f2ee;
+  isolation: isolate;
+  border-bottom: 1px solid rgba(37, 94, 129, 0.08);
+}
+
+.entrepreneurs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 47, 53, 0.18) 0%, rgba(20, 47, 53, 0.22) 100%),
+    linear-gradient(90deg, rgba(20, 47, 53, 0.62) 0%, rgba(20, 47, 53, 0.3) 48%, rgba(20, 47, 53, 0.14) 100%);
+  z-index: 0;
+}
+
+.entrepreneurs-hero__visual {
+  position: absolute;
+  inset: -32% 0;
+  background:
+    linear-gradient(180deg, rgba(255, 214, 158, 0.08) 0%, rgba(20, 47, 53, 0.18) 100%),
+    linear-gradient(115deg, rgba(28, 61, 78, 0.7) 0%, rgba(28, 61, 78, 0.24) 52%, rgba(28, 61, 78, 0.38) 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: saturate(0.86) brightness(0.84);
+  transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.08);
+  will-change: transform;
+  z-index: -1;
+}
+
+.entrepreneurs-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-height: 50vh;
+  padding-top: var(--navbar-height);
+  padding-bottom: 2.75rem;
+}
+
+.entrepreneurs-hero__copy {
+}
+
+.entrepreneurs-eyebrow,
+.entrepreneurs-section__eyebrow {
+  margin: 0 0 ;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f0c58a;
+}
+
+.entrepreneurs-section__eyebrow {
+  color: #f0c58a;
+}
+
+.entrepreneurs-section__eyebrow--light {
+  color: rgba(224, 240, 255, 0.82);
+}
+
+.entrepreneurs-hero__title {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 2rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  color: #f4f2ee;
+  text-wrap: balance;
+}
+
+.entrepreneurs-hero__text {
+  margin:  0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(243, 248, 252, 0.86);
+}
+
+.entrepreneurs-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.95rem;
+  margin-top: 0;
+}
+
+.entrepreneurs-stat,
+.entrepreneurs-counter-card {
+  padding: 1.2rem 1.1rem;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.entrepreneurs-stat strong,
+.entrepreneurs-counter-card strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  color: #f5d9ab;
+}
+
+.entrepreneurs-stat span,
+.entrepreneurs-counter-card span {
+  color: rgba(245, 239, 229, 0.76);
+  line-height: 1.45;
+}
+
+.entrepreneurs-section__intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.entrepreneurs-section__intro--narrow {
+  align-items: start;
+}
+
+.entrepreneurs-section__intro h2,
+.entrepreneurs-panel h2,
+.entrepreneurs-cta h2,
+.entrepreneurs-earnings__content h2 {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2rem, 3.1vw, 3.3rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: #1d2f3f;
+}
+
+.entrepreneurs-section__lead,
+.entrepreneurs-intro-copy {
+  max-width: 540px;
+}
+
+.entrepreneurs-section__lead,
+.entrepreneurs-intro-copy p,
+.entrepreneurs-card p,
+.entrepreneurs-service-card li,
+.entrepreneurs-panel li,
+.entrepreneurs-earnings__content p,
+.entrepreneurs-cta p {
+  margin: 0;
+  color: #5b6c79;
+  font-size: 1.04rem;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.005em;
+  text-align: justify;
+}
+
+.entrepreneurs-intro-copy {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.entrepreneurs-why-header {
+  margin-bottom: 2rem;
+}
+
+.entrepreneurs-why-header h2 {
+  margin: 0 0 1.15rem;
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: #25272b;
+  text-wrap: balance;
+}
+
+.entrepreneurs-why-header h2 span {
+  color: #38779e;
+}
+
+.entrepreneurs-why-header .entrepreneurs-section__lead {
+  max-width: 100%;
+  color: #475569;
+  font-size: 1.04rem;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.005em;
+  text-align: left;
+}
+
+.entrepreneurs-bc-brief {
+  display: grid;
+  gap: 1.35rem;
+  margin: 0 0 4rem;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid rgba(56, 119, 158, 0.12);
+}
+
+.entrepreneurs-bc-brief p {
+  max-width: 980px;
+  margin: 0;
+  color: #475569;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.entrepreneurs-bc-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.entrepreneurs-bc-types span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(56, 119, 158, 0.08);
+  border: 1px solid rgba(56, 119, 158, 0.14);
+  color: #255e81;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.entrepreneurs-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.entrepreneurs-why-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5rem 4rem;
+  margin-top: 2.5rem;
+}
+
+.entrepreneurs-card.entrepreneurs-why-item {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s ease var(--reveal-delay),
+    transform 0.7s ease var(--reveal-delay);
+}
+
+.entrepreneurs-card.entrepreneurs-why-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.entrepreneurs-card.entrepreneurs-why-item:nth-child(4) {
+  grid-column: 1 / span 1;
+}
+
+.entrepreneurs-card.entrepreneurs-why-item:nth-child(5) {
+  grid-column: 2 / span 1;
+}
+
+.entrepreneurs-card.entrepreneurs-why-item h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0 0 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #25272b;
+}
+
+.entrepreneurs-card.entrepreneurs-why-item h3 i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 8px;
+  color: #38779e;
+  font-size: 1.25rem;
+}
+
+.entrepreneurs-why-item p {
+  position: relative;
+  margin: 0;
+  padding-left: calc(40px + 0.85rem);
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.entrepreneurs-why-item p::before {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  left: 0;
+  top: 0.18rem;
+  width: 40px;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.entrepreneurs-why-item:hover p::before {
+  color: #38779e;
+}
+
+.entrepreneurs-card,
+.entrepreneurs-service-card,
+.entrepreneurs-panel {
+  padding: 1.55rem;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(37, 94, 129, 0.1);
+}
+
+#why-join .entrepreneurs-card {
+  min-height: 410px;
+  padding: 2rem 1.9rem 1.85rem;
+  border-radius: 28px;
+  border-color: rgba(37, 94, 129, 0.11);
+  background: #ffffff;
+}
+
+.entrepreneurs-card__icon,
+.entrepreneurs-service-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 1.1rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(37, 94, 129, 0.12), rgba(54, 128, 165, 0.2));
+  color: #255e81;
+  font-size: 1.35rem;
+}
+
+#why-join .entrepreneurs-card__icon {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 1.65rem;
+  border-radius: 21px;
+  background: #e6eef3;
+  color: #236181;
+  font-size: 1.6rem;
+}
+
+.entrepreneurs-card h3,
+.entrepreneurs-service-card h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1.3rem;
+  color: #203243;
+}
+
+#why-join .entrepreneurs-card h3 {
+  margin-bottom: 1.05rem;
+  font-size: clamp(1.35rem, 1.65vw, 1.65rem);
+  line-height: 1.18;
+  letter-spacing: 0;
+  color: #1c2d3b;
+}
+
+#why-join .entrepreneurs-card p {
+  font-size: clamp(1rem, 1.18vw, 1.28rem);
+  line-height: 1.72;
+  color: #546574;
+}
+
+.entrepreneurs-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.entrepreneurs-service-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.entrepreneurs-service-card__icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0;
+  border-radius: 16px;
+}
+
+.entrepreneurs-service-card ul,
+.entrepreneurs-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.entrepreneurs-service-card li,
+.entrepreneurs-bullet-list li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.entrepreneurs-service-card li + li,
+.entrepreneurs-bullet-list li + li {
+  margin-top: 0.72rem;
+}
+
+.entrepreneurs-service-card li::before,
+.entrepreneurs-bullet-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ea7a34, #255e81);
+}
+
+.entrepreneurs-earnings {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.entrepreneurs-earnings__content h2,
+.entrepreneurs-panel--accent h2,
+.entrepreneurs-cta h2 {
+  color: #f3f9ff;
+}
+
+.entrepreneurs-cta h2 span {
+  color: #f0c58a;
+  text-shadow: 0 8px 28px rgba(240, 197, 138, 0.24);
+}
+
+.entrepreneurs-earnings__content p,
+.entrepreneurs-panel--accent li,
+.entrepreneurs-cta p {
+  color: rgba(233, 244, 252, 0.84);
+}
+
+.entrepreneurs-earnings__content p {
+  margin-top: 1.15rem;
+}
+
+.entrepreneurs-counter-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.entrepreneurs-panel--accent,
+.entrepreneurs-cta {
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.14), transparent 28%),
+    linear-gradient(to bottom, rgba(20, 47, 53, 0.12), rgba(15, 47, 63, 0.28)),
+    linear-gradient(135deg, #255e81 0%, #327f99 60%, #235963 100%);
+  color: #f3f9ff;
+}
+
+.entrepreneurs-dual-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.entrepreneurs-dual-grid--single {
+  grid-template-columns: 1fr;
+}
+
+.entrepreneurs-bullet-list--plain li::before {
+  background: linear-gradient(135deg, #ea7a34, #52a7d1);
+}
+
+.entrepreneurs-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.35rem 2.5rem;
+  border-radius: 30px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-size: 220% 220%;
+  animation: entrepreneursCtaGradient 6s ease-in-out infinite alternate;
+}
+
+.entrepreneurs-cta .home-btn {
+  min-height: 52px;
+  padding: 10px 25px ;
+  border-radius: 25px;
+  letter-spacing: 0.01em;
+}
+
+.entrepreneurs-cta .home-btn--primary {
+  background: #f0c58a;
+  color: #14323f;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.entrepreneurs-cta .home-btn--primary:hover {
+  background: #f6d29f;
+  color: #14323f;
+  box-shadow: 0 18px 38px rgba(240, 197, 138, 0.24);
+}
+
+.entrepreneurs-cta .home-btn--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f3f9ff;
+  border-color: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+.entrepreneurs-cta .home-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(240, 197, 138, 0.62);
+  color: #ffffff;
+}
+
+.entrepreneurs-cta::before {
+  content: "";
+  position: absolute;
+  inset: -80px;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='34' height='34' viewBox='0 0 34 34' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 8a1.35 1.35 0 1 1 0-2.7A1.35 1.35 0 0 1 8 8zm18 18a1.35 1.35 0 1 1 0-2.7A1.35 1.35 0 0 1 26 26z' fill='%23ffffff' fill-opacity='0.13' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 34px 34px;
+  opacity: 0.95;
+  animation: entrepreneursCtaPatternPan 8s linear infinite;
+}
+
+.entrepreneurs-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes entrepreneursCtaGradient {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes entrepreneursCtaPatternPan {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(34px, 34px, 0);
+  }
+}
+
+@media (max-width: 1100px) {
+  .entrepreneurs-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .entrepreneurs-why-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .entrepreneurs-card.entrepreneurs-why-item:nth-child(4),
+  .entrepreneurs-card.entrepreneurs-why-item:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .entrepreneurs-service-grid,
+  .entrepreneurs-dual-grid,
+  .entrepreneurs-earnings,
+  .entrepreneurs-section__intro {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .entrepreneurs-page .page-hero,
+  .entrepreneurs-page .page-hero__visual {
+    min-height: 45vh;
+  }
+
+  .entrepreneurs-page .page-hero__visual {
+    inset: -18% 0;
+    transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.04);
+  }
+
+  .entrepreneurs-page .page-intro {
+    padding: 2.35rem 0 3rem;
+  }
+
+  .entrepreneurs-page .page-intro__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+  }
+
+  .entrepreneurs-page .page-intro__left {
+    width: 100%;
+  }
+
+  .entrepreneurs-page .page-intro__right {
+    width: 100%;
+    padding-top: 0;
+    gap: 0.95rem;
+  }
+
+  .entrepreneurs-page .page-intro__heading {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+  }
+
+  .entrepreneurs-page .page-intro__right p {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .entrepreneurs-section--cta {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .entrepreneurs-cta {
+    padding: 2rem 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .entrepreneurs-section {
+    padding: 3.8rem 0;
+  }
+
+  .entrepreneurs-section--why-bfsi {
+    padding: 4rem 0;
+  }
+
+  .entrepreneurs-why-header {
+    margin-bottom: 2rem;
+  }
+
+  .entrepreneurs-bc-brief {
+    margin-bottom: 3rem;
+  }
+
+  .entrepreneurs-why-grid {
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .entrepreneurs-hero__grid {
+    padding-top: var(--navbar-height-mobile);
+    min-height: 50vh;
+    padding-bottom: 2rem;
+    align-items: center;
+  }
+
+  .entrepreneurs-hero__title {
+    font-size: clamp(2rem, 9vw, 3rem);
+    max-width: 12ch;
+  }
+
+  .entrepreneurs-hero__text {
+    max-width: 32ch;
+    font-size: 0.96rem;
+    line-height: 1.6;
+  }
+
+  .entrepreneurs-card-grid,
+  .entrepreneurs-service-grid,
+  .entrepreneurs-counter-panel,
+  .entrepreneurs-dual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .entrepreneurs-card,
+  .entrepreneurs-service-card,
+  .entrepreneurs-panel,
+  .entrepreneurs-cta {
+    padding: 0;
+    border-radius: 22px;
+  }
+
+  .entrepreneurs-section--cta {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .entrepreneurs-cta {
+    padding: 1.3rem 1.1rem 1.25rem;
+    gap: 1rem;
+  }
+
+  .entrepreneurs-cta h2 {
+    max-width: 9ch;
+  }
+
+  .entrepreneurs-cta .home-btn {
+    min-height: 48px;
+    padding: 0.9rem 1.15rem;
+    border-radius: 22px;
+  }
+
+  .entrepreneurs-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

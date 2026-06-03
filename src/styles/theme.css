@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+:root {
+  --font-family-base: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --navbar-height: 72px;
+  --navbar-height-mobile: 60px;
+  --page-container-gap: 1.5rem;
+  --bg-color: #fff;
+  --surface-color: #ffffff;
+  --text-color: #1e2633;
+  --muted-text-color: #5a6475;
+  --brand-color: #0f4c81;
+  --brand-color-dark: #0a365b;
+  --border-color: #dbe2ee;
+  --max-content-width: 1080px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--text-color);
+  background: var(--bg-color);
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: var(--brand-color-dark);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Reusable 2-tone H1 style */
+.ibridge-h1-duotone {
+  font-size: clamp(2.2rem, 3.5vw, 30px);
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+.ibridge-h1-duotone .line {
+  display: block;
+}
+
+.ibridge-h1-duotone .tone-dark {
+  color: #333;
+}
+
+.ibridge-h1-duotone .tone-light {
+  color: #989898;
+}
+
+/* Reusable blue heading style */
+.ibridge-h2-primary {
+  font-family: var(--font-family-base);
+  font-size: clamp(2rem, 3.2vw, 25px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #0068ef;
+}
+
+p {
+  margin: 12px 0 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #212529;
+}
+
+.ibridge-para,
+.ibridge-para-center {
+  margin: 12px 0 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #333;
+}
+
+.ibridge-para {
+  text-align: justify;
+}
+
+.ibridge-para-center {
+  text-align: center;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  width: min(100% - 2rem, var(--max-content-width));
+  margin-inline: auto;
+}
+
+.page-container {
+  flex: 1;
+  width: min(100% - 2rem, var(--max-content-width));
+  margin: var(--page-container-gap) auto;
+}
+
+.page-container--flush {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.page-section {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  padding-top: 2rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.placeholder-card {
+  margin-top: 1rem;
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--muted-text-color);
+}
+
+.preview-box {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.scroll-top-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 45px;
+  height:45px;
+  border: 0;
+  border-radius: 50%;
+  background: #454545;
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(22, 33, 51, 0.15);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-top-btn:hover {
+  background: #626262;
+}
+
+.scroll-top-btn i {
+  line-height: 1;
+  display: block;
+}

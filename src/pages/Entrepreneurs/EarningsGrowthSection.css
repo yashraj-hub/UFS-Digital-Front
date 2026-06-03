@@ -1,0 +1,216 @@
+.earnings-growth-section {
+  width: auto;
+  margin-left: calc(50% - 50dvw);
+  margin-right: calc(50% - 50dvw);
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.earnings-growth-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 760px;
+}
+
+.earnings-growth-image-panel {
+  position: relative;
+  min-height: 760px;
+  overflow: hidden;
+}
+
+.earnings-growth-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 1s ease,
+    transform 5s ease;
+  z-index: 1;
+}
+
+.earnings-growth-image.is-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+.earnings-growth-image-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(9, 22, 28, 0.42), rgba(9, 22, 28, 0.06)),
+    linear-gradient(to top right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.08));
+}
+
+.earnings-growth-content-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6.25rem 5rem;
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom, rgba(20, 47, 53, 0.12), rgba(15, 47, 63, 0.28)),
+    linear-gradient(135deg, #255e81 0%, #327f99 60%, #235963 100%);
+}
+
+.earnings-growth-content-panel::before {
+  content: "";
+  position: absolute;
+  inset: -100px;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm20 20a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  animation: earningsPatternPan 15s linear infinite;
+}
+
+@keyframes earningsPatternPan {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(40px, 40px);
+  }
+}
+
+.earnings-growth-content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 780px);
+}
+
+.earnings-growth-eyebrow {
+  margin: 0 0 0.5rem;
+  color: #f0c58a;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.earnings-growth-title {
+  max-width: 15ch;
+  margin: 0 0 1.25rem;
+  color: #ffffff;
+    font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.earnings-growth-quote {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.earnings-growth-quote-icon {
+  position: absolute;
+  top: -16px;
+  left: -10px;
+  z-index: 0;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 4.6rem;
+  transform: rotate(-5deg);
+}
+
+.earnings-growth-quote p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(0.98rem, 1.05vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+.earnings-growth-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.earnings-growth-list li {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.5rem 0;
+  color: #ffffff;
+  font-size: 1.04rem;
+  font-weight: normal;
+  line-height: 1.45;
+  transition: transform 0.3s ease;
+}
+
+.earnings-growth-list li:hover {
+  transform: translateX(6px);
+}
+
+.earnings-growth-list-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1.12rem;
+}
+
+@media (max-width: 992px) {
+  .earnings-growth-container {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .earnings-growth-image-panel {
+    min-height: 56vh;
+  }
+
+  .earnings-growth-content-panel {
+    padding: 4rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .earnings-growth-image-panel {
+    min-height: 48vh;
+  }
+
+  .earnings-growth-content-panel {
+    padding: 3rem 1.5rem;
+  }
+
+  .earnings-growth-title {
+    max-width: 12ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .earnings-growth-quote {
+    margin-bottom: 2rem;
+  }
+
+  .earnings-growth-list li {
+    align-items: flex-start;
+  }
+
+  .earnings-growth-list-icon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    font-size: 1rem;
+  }
+}

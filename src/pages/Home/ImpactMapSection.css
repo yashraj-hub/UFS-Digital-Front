@@ -1,0 +1,149 @@
+/* ================= IMPACT MAP SECTION ================= */
+.impact-map-section {
+  padding: 50px 0px;
+  background-color: #ffffff;
+  /* Light background */
+  position: relative;
+  overflow: hidden;
+  color: #333;
+}
+
+
+
+.impact-map-container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+  width: min(100% - 2rem, var(--max-content-width));
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Content Side */
+.impact-map-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.impact-eyebrow {
+  color: #f0c58a;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.impact-title {
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  /* Dark text for light theme */
+  text-wrap: balance;
+}
+
+.impact-title span {
+  color: #38779e;
+  /* Highlight the states count */
+}
+
+.impact-desc {
+  font-size: clamp(0.98rem, 1.05vw, 1.08rem);
+  line-height: 1.7;
+  color: #475569;
+  /* Slate text */
+  margin: 0 0 3rem 0;
+  text-align: justify;
+}
+
+/* Stats Grid */
+.impact-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.impact-stat-item {
+  border-left: 3px solid #38779e;
+  padding-left: 1.25rem;
+}
+
+.impact-stat-item h3 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #38779e;
+  margin: 0 0 0.2rem 0;
+  line-height: 1;
+}
+
+.impact-stat-item p {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Visual Side (Map) */
+.impact-map-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.impact-map-canvas {
+  width: 100%;
+  /* India is roughly portrait — aspect-ratio locks shape */
+  aspect-ratio: 0.88 / 1;
+  min-height: 420px;
+  max-height: 520px;
+  background: transparent;
+  /* No overflow:hidden — Mapbox marker elements must not be clipped */
+}
+
+/* Hide Mapbox attribution */
+.impact-map-canvas .mapboxgl-ctrl-bottom-left,
+.impact-map-canvas .mapboxgl-ctrl-bottom-right,
+.impact-map-canvas .mapboxgl-ctrl-logo,
+.impact-map-canvas .mapboxgl-ctrl-attrib {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .impact-map-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .impact-map-visual {
+    order: -1;
+  }
+
+  .impact-map-canvas {
+    max-width: 440px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .impact-map-section {
+    padding: 5rem 0;
+  }
+
+  .impact-title {
+    font-size: 2rem;
+  }
+
+  .impact-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}

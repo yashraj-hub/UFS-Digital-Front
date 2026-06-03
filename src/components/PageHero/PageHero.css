@@ -1,0 +1,53 @@
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  /* Match Services hero: desktop 50vh */
+  min-height: 50vh;
+  isolation: isolate;
+  border-bottom: 1px solid rgba(37, 94, 129, 0.08);
+}
+
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20, 47, 53, 0.18) 0%, rgba(20, 47, 53, 0.22) 100%),
+    linear-gradient(90deg, rgba(20, 47, 53, 0.62) 0%, rgba(20, 47, 53, 0.3) 48%, rgba(20, 47, 53, 0.14) 100%);
+  z-index: 0;
+}
+
+.page-hero__visual {
+  position: absolute;
+  inset: -18% 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: saturate(0.86) brightness(0.84);
+  transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.03);
+  will-change: transform;
+  z-index: -1;
+  min-height: 50vh;
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .page-hero {
+    min-height: 45vh;
+  }
+
+  .page-hero__visual {
+    min-height: 45vh;
+    inset: -12% 0;
+    transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.02);
+  }
+}
+
+@media (max-width: 767px) {
+  .page-hero {
+    min-height: 42vh;
+  }
+
+  .page-hero__visual {
+    min-height: 42vh;
+  }
+}
