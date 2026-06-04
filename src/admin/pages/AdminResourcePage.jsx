@@ -153,6 +153,97 @@ const resourceConfig = {
       },
     ],
   },
+  jobs: {
+    resource: "jobs",
+    title: "Job Openings",
+    eyebrow: "Careers",
+    createLabel: "Post New Job",
+    allowCreate: true,
+    switchEditor: true,
+    columns: ["title", "department", "location", "status", "applications_count", "created_at"],
+    fields: [
+      { name: "title", label: "Job Title", type: "text", required: true },
+      {
+        name: "department",
+        label: "Department",
+        type: "select",
+        required: true,
+        options: [
+          { value: "Development", label: "Development" },
+          { value: "HR", label: "HR" },
+          { value: "Marketing", label: "Marketing" },
+          { value: "Sales", label: "Sales" },
+          { value: "Operations", label: "Operations" },
+          { value: "Finance", label: "Finance" },
+          { value: "Design", label: "Design" },
+        ],
+      },
+      { name: "location", label: "Location", type: "text", defaultValue: "Remote" },
+      { name: "experience_required", label: "Experience Required", type: "text", placeholder: "e.g. 2-4 years" },
+      { name: "image_url", label: "Poster/Image URL", type: "url" },
+      {
+        name: "status",
+        label: "Status",
+        type: "select",
+        required: true,
+        options: [
+          { value: "draft", label: "Draft" },
+          { value: "active", label: "Active" },
+          { value: "closed", label: "Closed" },
+        ],
+      },
+      { name: "description", label: "Job Description", type: "quill", wide: true },
+    ],
+  },
+  "job-applications": {
+    resource: "job-applications",
+    title: "Applications",
+    eyebrow: "Careers",
+    allowCreate: false,
+    hideEditor: true,
+    previewOnRowClick: true,
+    previewTitleField: "full_name",
+    previewTitleFallback: "Applicant",
+    previewKicker: "Job Application Details",
+    previewFields: [
+      "email",
+      "phone",
+      "current_location",
+      "experience_years",
+      "current_ctc",
+      "expected_ctc",
+      "notice_period",
+      "status",
+      "applied_at",
+    ],
+    previewBodyFields: ["resume_url", "linkedin_url", "portfolio_url", "cover_letter"],
+    columns: ["full_name", "email", "phone", "experience_years", "status", "applied_at"],
+    fields: [
+      { name: "full_name", label: "Full Name", type: "text", readOnly: true },
+      { name: "email", label: "Email", type: "email", readOnly: true },
+      { name: "phone", label: "Phone", type: "text", readOnly: true },
+      { name: "current_location", label: "Current Location", type: "text", readOnly: true },
+      { name: "experience_years", label: "Exp (Years)", type: "number", readOnly: true },
+      { name: "current_ctc", label: "Current CTC", type: "text", readOnly: true },
+      { name: "expected_ctc", label: "Expected CTC", type: "text", readOnly: true },
+      { name: "notice_period", label: "Notice Period", type: "text", readOnly: true },
+      { name: "resume_url", label: "Resume Link", type: "url", readOnly: true },
+      { name: "linkedin_url", label: "LinkedIn", type: "url", readOnly: true },
+      { name: "portfolio_url", label: "Portfolio", type: "url", readOnly: true },
+      { name: "cover_letter", label: "Cover Letter", type: "textarea", wide: true, readOnly: true },
+      {
+        name: "status",
+        label: "Status",
+        type: "select",
+        options: [
+          { value: "new", label: "New" },
+          { value: "reviewed", label: "Reviewed" },
+          { value: "shortlisted", label: "Shortlisted" },
+          { value: "rejected", label: "Rejected" },
+        ],
+      },
+    ],
+  },
 };
 
 function getInitialForm(config) {
@@ -182,7 +273,11 @@ function formatValue(value, fieldName) {
   }
 
   if (fieldName?.endsWith("_at")) {
-    return new Date(value).toLocaleString();
+    return new Date(value).toLocaleDateString();
+  }
+
+  if (fieldName === "applications_count") {
+    return <strong style={{ color: "#2563eb", fontSize: "1rem" }}>{value}</strong>;
   }
 
   return String(value);
@@ -198,6 +293,7 @@ function getColumnLabel(config, column) {
   if (column === "logo_url") return "Logo";
   if (column === "is_active") return config.resource === "partners" ? "Visible" : "Active";
   if (column === "status" && config.isBlogsPage) return "Live";
+  if (column === "applications_count") return "Total Apps";
   return column.replaceAll("_", " ");
 }
 
@@ -294,11 +390,15 @@ function FieldControl({ field, value, onChange, readOnly = false, blogCategories
     return (
       <select {...commonProps}>
         <option value="">Select</option>
-        {field.options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
+        {field.options.map((option) => {
+          const optValue = typeof option === "object" ? option.value : option;
+          const optLabel = typeof option === "object" ? option.label : option;
+          return (
+            <option key={optValue} value={optValue}>
+              {optLabel}
+            </option>
+          );
+        })}
       </select>
     );
   }
@@ -319,10 +419,42 @@ function FieldControl({ field, value, onChange, readOnly = false, blogCategories
   return <input {...commonProps} type={field.type || "text"} />;
 }
 
+function getColumnStyle(column) {
+  if (column === "title" || column === "full_name") return { width: "30%", textAlign: "left", whiteSpace: "normal", wordBreak: "break-word" };
+  if (column === "department" || column === "location") return { width: "12%" };
+  if (column === "status") return { width: "8%" };
+  if (column === "applications_count") return { width: "10%", textAlign: "center" };
+  if (column === "created_at" || column === "applied_at") return { width: "10%" };
+  return {};
+}
+
 function AdminResourcePage({ resourceKey }) {
   const { can } = useOutletContext();
-  const config = resourceConfig[resourceKey];
+  const [activeResourceKey, setActiveResourceKey] = useState(resourceKey);
+  const [drilldownJob, setDrilldownJob] = useState(null);
+  const [viewingRecord, setViewingRecord] = useState(null);
+
+  const config = useMemo(() => {
+    if (viewingRecord) {
+      const baseConfig = resourceConfig[activeResourceKey];
+      return {
+        ...baseConfig,
+        title: `Details: ${viewingRecord.full_name || viewingRecord.name || viewingRecord.title || "Record"}`,
+        eyebrow: drilldownJob ? drilldownJob.title : baseConfig.title,
+      };
+    }
+    if (activeResourceKey === "job-applications" && drilldownJob) {
+      return {
+        ...resourceConfig["job-applications"],
+        title: `Applications for ${drilldownJob.title}`,
+        eyebrow: "Careers",
+      };
+    }
+    return resourceConfig[activeResourceKey];
+  }, [activeResourceKey, drilldownJob, viewingRecord]);
+
   const [rows, setRows] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [blogCategories, setBlogCategories] = useState([]);
   const [showCatModal, setShowCatModal] = useState(false);
   const [catForm, setCatForm] = useState({ name: "", slug: "", display_order: 0, is_active: true });
@@ -336,7 +468,7 @@ function AdminResourcePage({ resourceKey }) {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [previewRecord, setPreviewRecord] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, ids: [], isBulk: false });
   const [pendingDelete, setPendingDelete] = useState(null);
   const [isEditorOpen, setIsEditorOpen] = useState(!config.switchEditor);
 
@@ -367,9 +499,14 @@ function AdminResourcePage({ resourceKey }) {
     setIsLoading(true);
     setError("");
     try {
+      const params = {};
+      if (activeResourceKey === "job-applications" && drilldownJob) {
+        params.job_id = drilldownJob.id;
+      }
+
       const [data, cats] = await Promise.all([
-        adminApi.list(config.resource),
-        config.resource === "blogs" ? adminApi.listBlogCategories() : Promise.resolve([]),
+        adminApi.list(activeResourceKey, params),
+        activeResourceKey === "blogs" ? adminApi.listBlogCategories() : Promise.resolve([]),
       ]);
       setRows(data);
       if (cats.length) setBlogCategories(cats);
@@ -383,12 +520,19 @@ function AdminResourcePage({ resourceKey }) {
   useEffect(() => {
     setRows([]);
     setSearchTerm("");
-    setForm(getInitialForm(config));
+    setForm(getInitialForm(resourceConfig[resourceKey]));
     setEditingId(null);
-    setPreviewRecord(null);
-    setIsEditorOpen(!config.switchEditor);
+    setIsEditorOpen(!resourceConfig[resourceKey].switchEditor);
+    setActiveResourceKey(resourceKey);
+    setDrilldownJob(null);
+    setViewingRecord(null);
+    setSelectedIds([]);
+  }, [resourceKey]);
+
+  useEffect(() => {
     loadRows();
-  }, [config.resource]);
+    setSelectedIds([]);
+  }, [activeResourceKey, drilldownJob]);
 
   const handleChange = (name, value) => {
     setForm((current) => ({ ...current, [name]: value }));
@@ -406,9 +550,15 @@ function AdminResourcePage({ resourceKey }) {
     setIsEditorOpen(true);
   };
 
-  const handleEdit = (record) => {
+  const handleEdit = (record, mode = "auto") => {
+    if (activeResourceKey === "jobs" && mode !== "edit") {
+      setDrilldownJob(record);
+      setActiveResourceKey("job-applications");
+      return;
+    }
+
     if (config.previewOnRowClick) {
-      setPreviewRecord(record);
+      setViewingRecord(record);
       return;
     }
 
@@ -417,6 +567,48 @@ function AdminResourcePage({ resourceKey }) {
     setNotice("");
     setError("");
     setIsEditorOpen(true);
+  };
+
+  const handleBack = () => {
+    if (viewingRecord) {
+      setViewingRecord(null);
+    } else if (drilldownJob) {
+      setDrilldownJob(null);
+      setActiveResourceKey("jobs");
+    }
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(rows.map((r) => r.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectRow = (e, id) => {
+    e.stopPropagation();
+    if (e.target.checked) {
+      setSelectedIds((prev) => [...prev, id]);
+    } else {
+      setSelectedIds((prev) => prev.filter((i) => i !== id));
+    }
+  };
+
+  const handleBulkDelete = () => {
+    setDeleteConfirm({ show: true, ids: selectedIds, isBulk: true });
+  };
+
+  const handleToggleStatus = async (record) => {
+    const newStatus = record.status === "active" ? "inactive" : "active";
+    try {
+      await adminApi.update(activeResourceKey, record.id, { status: newStatus });
+      setRows((prev) =>
+        prev.map((row) => (row.id === record.id ? { ...row, status: newStatus } : row))
+      );
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const closeEditor = () => {
@@ -471,37 +663,30 @@ function AdminResourcePage({ resourceKey }) {
   };
 
   const handleDelete = (record) => {
-    if (!canDelete) {
-      setError("You do not have permission to delete this record.");
-      return;
-    }
-
-    setPendingDelete(record);
+    setDeleteConfirm({ show: true, ids: [record.id], isBulk: false });
   };
 
-  const performDelete = async () => {
-    if (!pendingDelete) {
-      return;
-    }
-
-    const record = pendingDelete;
-    setPendingDelete(null);
-    setError("");
-    setNotice("");
-
+  const confirmDelete = async () => {
+    const { ids, isBulk } = deleteConfirm;
+    setIsLoading(true);
     try {
-      await adminApi.remove(config.resource, record.id);
-      setNotice("Record deleted.");
-      if (editingId === record.id) {
-        if (config.switchEditor) {
-          closeEditor();
-        } else {
-          handleNew();
+      if (isBulk) {
+        await adminApi.bulkDelete(activeResourceKey, ids);
+        setNotice(`${ids.length} items deleted successfully`);
+        setSelectedIds([]);
+      } else {
+        await adminApi.remove(config.resource, ids[0]);
+        setNotice("Item deleted successfully");
+        if (selectedIds.includes(ids[0])) {
+          setSelectedIds(prev => prev.filter(i => i !== ids[0]));
         }
       }
       await loadRows();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
+      setDeleteConfirm({ show: false, ids: [], isBulk: false });
     }
   };
 
@@ -546,6 +731,21 @@ function AdminResourcePage({ resourceKey }) {
   };
 
   const renderTableCell = (record, column) => {
+    const value = record[column];
+
+    if (column === "status" && activeResourceKey === "jobs") {
+      return (
+        <label className="admin-status-toggle" onClick={(e) => e.stopPropagation()}>
+          <input
+            type="checkbox"
+            checked={value === "active"}
+            onChange={() => handleToggleStatus(record)}
+          />
+          <span className="admin-status-toggle__slider"></span>
+        </label>
+      );
+    }
+
     if (column === "status" && config.isBlogsPage) {
       const isLive = record.status === "published";
       return (
@@ -662,12 +862,37 @@ function AdminResourcePage({ resourceKey }) {
   return (
     <section className="admin-page">
       <div className="admin-page__heading">
-        <div>
-          <p className="admin-kicker">{config.eyebrow}</p>
-          <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#fff' }}>{config.title}</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          {(drilldownJob || viewingRecord) && (
+            <button 
+              type="button" 
+              className="admin-btn admin-btn--outline" 
+              onClick={handleBack} 
+              title={viewingRecord ? "Back to List" : "Back to Job Openings"} 
+              style={{ padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}
+            >
+              <i className="fa-solid fa-arrow-left" aria-hidden="true" />
+              <span>Back</span>
+            </button>
+          )}
+          <div>
+            <p className="admin-kicker">{config.eyebrow}</p>
+            <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#fff' }}>{config.title}</h2>
+          </div>
         </div>
 
         <div className="admin-action-row">
+          {!viewingRecord && selectedIds.length > 0 && canDelete && (
+            <button 
+              type="button" 
+              className="admin-btn admin-btn--danger" 
+              onClick={handleBulkDelete}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            >
+              <i className="fa-solid fa-trash" />
+              Delete Selected ({selectedIds.length})
+            </button>
+          )}
           {config.isBlogsPage && can("blog-categories", "view") ? (
             <button type="button" className="admin-secondary-btn" onClick={() => openCatModal()}>
               <i className="fa-solid fa-tags" aria-hidden="true" />
@@ -707,86 +932,200 @@ function AdminResourcePage({ resourceKey }) {
       {(!config.switchEditor || !isEditorOpen) ? (
       <div className={config.hideEditor || config.switchEditor ? "admin-resource-grid admin-resource-grid--table-only" : "admin-resource-grid"}>
         <div className="admin-table-panel">
-          <div className="admin-table-wrap">
-            <table className={`admin-table${config.resource === "team-members" ? " admin-table--team-members" : ""}`}>
-              <thead>
-                <tr>
-                  <th className="admin-table__serial">S.No.</th>
-                  {config.columns.map((column) => (
-                    <th key={column}>{getColumnLabel(config, column)}</th>
-                  ))}
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {isLoading ? (
-                  <tr>
-                    <td colSpan={config.columns.length + 2}>Loading...</td>
-                  </tr>
-                ) : filteredRows.length ? (
-                  filteredRows.map((record, index) => (
-                    <tr
-                      key={record.id}
-                      className={[
-                        editingId === record.id ? "is-selected" : "",
-                        config.previewOnRowClick ? "is-clickable" : "",
-                      ].filter(Boolean).join(" ")}
-                      onClick={config.previewOnRowClick ? () => setPreviewRecord(record) : undefined}
+          {viewingRecord ? (
+            <div className="admin-details-view">
+              <div className="admin-details-view__header">
+                <div>
+                  <h3>{viewingRecord[config.previewTitleField] || viewingRecord.full_name || viewingRecord.name || viewingRecord.title || "Details"}</h3>
+                  <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: 500 }}>
+                    Applied At: {formatValue(viewingRecord.applied_at || viewingRecord.created_at, "applied_at")}
+                  </p>
+                </div>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  {viewingRecord.resume_url && (
+                    <a 
+                      href={viewingRecord.resume_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      title="Download/View Resume"
+                      style={{ 
+                        color: '#2563eb', 
+                        fontSize: '1.1rem',
+                        width: '38px',
+                        height: '38px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '8px',
+                        transition: 'background 0.2s'
+                      }}
+                      className="admin-header-icon-btn"
                     >
-                      <td className="admin-table__serial">{index + 1}</td>
-                      {config.columns.map((column) => (
-                        <td key={column}>{renderTableCell(record, column, config)}</td>
+                      <i className="fa-solid fa-file-pdf" aria-hidden="true" />
+                    </a>
+                  )}
+                  <button 
+                    type="button" 
+                    onClick={handleBack} 
+                    title="Close"
+                    style={{ 
+                      background: 'none',
+                      border: 'none',
+                      color: '#64748b', 
+                      fontSize: '1.2rem',
+                      width: '38px',
+                      height: '38px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      borderRadius: '8px',
+                      transition: 'background 0.2s'
+                    }}
+                    className="admin-header-icon-btn"
+                  >
+                    <i className="fa-solid fa-xmark" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+              <div className="admin-details-view__grid">
+                {(config.previewFields || config.columns)
+                  .filter(field => !["resume_url", "applied_at", "created_at", "status"].includes(field))
+                  .map((field) => {
+                  const fieldConfig = config.fields.find(f => f.name === field);
+                  const value = viewingRecord[field];
+                  
+                  return (
+                    <div key={field} className={`admin-details-item ${fieldConfig?.wide ? "admin-details-item--wide" : ""}`}>
+                      <label>{getFieldLabel(config, field)}</label>
+                      <p>
+                        {fieldConfig?.type === "url" && value ? (
+                          <a href={value} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'underline' }}>
+                            View Link
+                          </a>
+                        ) : formatValue(value, field)}
+                      </p>
+                    </div>
+                  );
+                })}
+                
+                {(config.previewBodyFields || [])
+                  .filter(field => field !== "resume_url")
+                  .map((field) => (
+                  <div key={field} className="admin-details-item admin-details-item--full">
+                    <label>{getFieldLabel(config, field)}</label>
+                    <p className="admin-details-text">
+                      {config.fields.find(f => f.name === field)?.type === "url" && viewingRecord[field] ? (
+                        <a href={viewingRecord[field]} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'underline' }}>
+                          {viewingRecord[field]}
+                        </a>
+                      ) : (viewingRecord[field] || "No content provided.")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="admin-table-wrap">
+              <table className={`admin-table${config.resource === "team-members" ? " admin-table--team-members" : ""}`}>
+                <thead>
+                  <tr>
+                    <th style={{ width: '40px' }}>
+                      <input 
+                        type="checkbox" 
+                        onChange={handleSelectAll} 
+                        checked={rows.length > 0 && selectedIds.length === rows.length} 
+                      />
+                    </th>
+                    <th className="admin-table__serial">S.No.</th>
+                    {config.columns.map((column) => (
+                        <th key={column} style={getColumnStyle(column)}>{getColumnLabel(config, column)}</th>
                       ))}
-                      <td>
-                        <div className="admin-table-actions">
-                          <button
-                            type="button"
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              handleEdit(record);
-                            }}
-                            title={config.previewOnRowClick ? "Preview" : canEdit ? "Edit" : "View"}
-                          >
-                            <i className={`fa-solid ${config.previewOnRowClick || !canEdit ? "fa-eye" : "fa-pen"}`} aria-hidden="true" />
-                          </button>
-                          {config.isBlogsPage && record.slug ? (
-                            <a
-                              href={`/blog/${record.slug}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="admin-table-actions__link"
-                              title="View on site"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
-                            </a>
-                          ) : null}
-                          {canDelete ? (
-                            <button
-                              type="button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                handleDelete(record);
-                              }}
-                              title="Delete"
-                            >
-                              <i className="fa-solid fa-trash" aria-hidden="true" />
-                            </button>
-                          ) : null}
-                        </div>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan={config.columns.length + 3}>Loading...</td>
+                    </tr>
+                  ) : filteredRows.length ? (
+                    filteredRows.map((record, index) => (
+                      <tr
+                        key={record.id}
+                        className={[
+                          editingId === record.id ? "is-selected" : "",
+                          (config.previewOnRowClick || activeResourceKey === "jobs" || activeResourceKey === "job-applications") ? "is-clickable" : "",
+                          selectedIds.includes(record.id) ? "row-selected" : "",
+                        ].filter(Boolean).join(" ")}
+                        onClick={() => handleEdit(record)}
+                      >
+                        <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={selectedIds.includes(record.id)} 
+                            onChange={(e) => handleSelectRow(e, record.id)} 
+                          />
+                        </td>
+                        <td className="admin-table__serial">{index + 1}</td>
+                        {config.columns.map((column) => (
+                          <td key={column} style={getColumnStyle(column)}>
+                            {renderTableCell(record, column, config)}
+                          </td>
+                        ))}
+                        <td>
+                          <div className="admin-table-actions">
+                            {activeResourceKey === "jobs" && (
+                              <button
+                                type="button"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  handleEdit(record, "edit");
+                                }}
+                                title="Edit Job"
+                              >
+                                <i className="fa-solid fa-pen" aria-hidden="true" />
+                              </button>
+                            )}
+                            {config.isBlogsPage && record.slug ? (
+                              <a
+                                href={`/blog/${record.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="admin-table-actions__link"
+                                title="View on site"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
+                              </a>
+                            ) : null}
+                            {canDelete ? (
+                              <button
+                                type="button"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  handleDelete(record);
+                                }}
+                                title="Delete"
+                              >
+                                <i className="fa-solid fa-trash" aria-hidden="true" />
+                              </button>
+                            ) : null}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={config.columns.length + 3}>
+                        {rows.length ? "No records match your search." : "No records yet."}
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={config.columns.length + 2}>
-                      {rows.length ? "No records match your search." : "No records yet."}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
       ) : null}
@@ -862,55 +1201,35 @@ function AdminResourcePage({ resourceKey }) {
         </form>
       ) : null}
 
-      {previewRecord ? (
-        <div className="admin-preview-overlay" role="presentation" onClick={() => setPreviewRecord(null)}>
-          <section
-            className="admin-preview-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="admin-preview-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="admin-preview-modal__header">
-              <div>
-                <p className="admin-kicker">{config.previewKicker || "Record Preview"}</p>
-                <h3 id="admin-preview-title">
-                  {previewRecord[config.previewTitleField] || config.previewTitleFallback || config.title}
-                </h3>
-              </div>
-              <button type="button" className="admin-icon-btn" onClick={() => setPreviewRecord(null)} title="Close">
-                <i className="fa-solid fa-xmark" aria-hidden="true" />
+      {/* Custom Delete Confirmation Modal */}
+      {deleteConfirm.show && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal--confirm-dark">
+            <div className="admin-modal__header">
+              <h3>Confirm delete</h3>
+            </div>
+            <div className="admin-modal__body">
+              <p>
+                Are you sure you want to delete {deleteConfirm.isBulk ? `${deleteConfirm.ids.length} selected items` : "this item"}?
+              </p>
+            </div>
+            <div className="admin-modal__footer">
+              <button 
+                className="admin-btn--cancel" 
+                onClick={() => setDeleteConfirm({ show: false, ids: [], isBulk: false })}
+              >
+                Cancel
+              </button>
+              <button 
+                className="admin-btn--delete" 
+                onClick={confirmDelete}
+              >
+                Delete
               </button>
             </div>
-
-            <dl className="admin-preview-list">
-              {(config.previewFields || config.columns).map((fieldName) => (
-                <div key={fieldName}>
-                  <dt>{getFieldLabel(config, fieldName)}</dt>
-                  <dd>{formatValue(previewRecord[fieldName], fieldName)}</dd>
-                </div>
-              ))}
-            </dl>
-
-            {(config.previewBodyFields || []).map((fieldName) => (
-              <div key={fieldName} className="admin-preview-message">
-                <p className="admin-kicker">{getFieldLabel(config, fieldName)}</p>
-                <p>{formatValue(previewRecord[fieldName], fieldName)}</p>
-              </div>
-            ))}
-          </section>
+          </div>
         </div>
-      ) : null}
-
-      <ConfirmDialog
-        open={Boolean(pendingDelete)}
-        title="Confirm delete"
-        message={`Are you sure you want to delete "${pendingDelete?.name || pendingDelete?.title || pendingDelete?.full_name || pendingDelete?.email}"?`}
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
-        onConfirm={performDelete}
-        onCancel={() => setPendingDelete(null)}
-      />
+      )}
 
       {showCatModal ? (
         <div className="admin-profile-dialog-overlay" onClick={() => setShowCatModal(false)}>

@@ -4,6 +4,7 @@ import Seo from "../../components/Seo/Seo";
 import PageHero from "../../components/PageHero/PageHero";
 import PageIntro from "../../components/PageIntro/PageIntro";
 import { pageSeo } from "../../seo/siteMeta";
+import { useToast } from "../../context/ToastContext";
 import "./BecomeAgentPage.css";
 
 const WHY_ITEMS = [
@@ -93,10 +94,9 @@ function getValidationError(form, districtOptions) {
 }
 
 function BecomeAgentPage() {
+  const { showToast } = useToast();
   const [form, setForm] = useState(emptyForm);
-  const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
   const [districts, setDistricts] = useState([]);
   const location = useLocation();
 
@@ -123,26 +123,14 @@ function BecomeAgentPage() {
       })
       .catch((err) => {
         if (isMounted) {
-          setError(err.message);
+          showToast(err.message, "error");
         }
       });
 
     return () => {
       isMounted = false;
     };
-  }, []);
-
-  useEffect(() => {
-    if (!submitted) {
-      return undefined;
-    }
-
-    const timer = window.setTimeout(() => {
-      setSubmitted(false);
-    }, 5000);
-
-    return () => window.clearTimeout(timer);
-  }, [submitted]);
+  }, [showToast]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -168,11 +156,10 @@ function BecomeAgentPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
 
     const validationError = getValidationError(form, districtOptions);
     if (validationError) {
-      setError(validationError);
+      showToast(validationError, "error");
       return;
     }
 
@@ -206,9 +193,9 @@ function BecomeAgentPage() {
       }
 
       setForm(emptyForm);
-      setSubmitted(true);
+      showToast("Application Submitted! Our team will contact you within 48 hours.", "success");
     } catch (err) {
-      setError(err.message);
+      showToast(err.message, "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -249,87 +236,75 @@ function BecomeAgentPage() {
           <p className="agent-signup__eyebrow">Apply Now</p>
           <h2 className="agent-signup__heading">Sign-Up</h2>
 
-          {submitted ? (
-            <div className="agent-success">
-              <i className="fa-solid fa-circle-check" />
-              <h3>Application Submitted!</h3>
-              <p>Thank you for your interest. Our team will contact you within 48 hours.</p>
-              <div className="agent-success__timer" aria-hidden="true">
-                <span />
+          <form className="agent-form" onSubmit={handleSubmit}>
+            <div className="agent-form__field agent-form__field--full">
+              <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required />
+            </div>
+            <div className="agent-form__row">
+              <div className="agent-form__field">
+                <input name="mobile" type="tel" inputMode="numeric" maxLength="10" placeholder="Mobile" value={form.mobile} onChange={handleChange} required />
+              </div>
+              <div className="agent-form__field">
+                <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
               </div>
             </div>
-          ) : (
-            <form className="agent-form" onSubmit={handleSubmit}>
-              <div className="agent-form__field agent-form__field--full">
-                <input name="name" type="text" placeholder="Name" value={form.name} onChange={handleChange} required />
+            <div className="agent-form__row">
+              <div className="agent-form__field">
+                <input name="pan" type="text" maxLength="10" placeholder="PAN" value={form.pan} onChange={handleChange} required />
               </div>
-              <div className="agent-form__row">
-                <div className="agent-form__field">
-                  <input name="mobile" type="tel" inputMode="numeric" maxLength="10" placeholder="Mobile" value={form.mobile} onChange={handleChange} required />
-                </div>
-                <div className="agent-form__field">
-                  <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-                </div>
+              <div className="agent-form__field">
+                <input name="aadhar" type="text" inputMode="numeric" maxLength="12" placeholder="Aadhar" value={form.aadhar} onChange={handleChange} required />
               </div>
-              <div className="agent-form__row">
-                <div className="agent-form__field">
-                  <input name="pan" type="text" maxLength="10" placeholder="PAN" value={form.pan} onChange={handleChange} required />
-                </div>
-                <div className="agent-form__field">
-                  <input name="aadhar" type="text" inputMode="numeric" maxLength="12" placeholder="Aadhar" value={form.aadhar} onChange={handleChange} required />
-                </div>
+            </div>
+            <div className="agent-form__row">
+              <div className="agent-form__field">
+                <select name="bank" value={form.bank} onChange={handleChange} required>
+                  <option value="">Bank</option>
+                  {BANKS.map((bank) => (
+                    <option key={bank} value={bank}>
+                      {bank}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="agent-form__row">
-                <div className="agent-form__field">
-                  <select name="bank" value={form.bank} onChange={handleChange} required>
-                    <option value="">Bank</option>
-                    {BANKS.map((bank) => (
-                      <option key={bank} value={bank}>
-                        {bank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="agent-form__field">
-                  <input name="pincode" type="text" inputMode="numeric" maxLength="6" placeholder="Pincode" value={form.pincode} onChange={handleChange} required />
-                </div>
+              <div className="agent-form__field">
+                <input name="pincode" type="text" inputMode="numeric" maxLength="6" placeholder="Pincode" value={form.pincode} onChange={handleChange} required />
               </div>
-              <div className="agent-form__row">
-                <div className="agent-form__field">
-                  <select name="state" value={form.state} onChange={handleChange} required>
-                    <option value="">State</option>
-                    {stateOptions.map((state) => (
-                      <option key={state} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="agent-form__field">
-                  <select name="district" value={form.district} onChange={handleChange} required disabled={!form.state}>
-                    <option value="">District</option>
-                    {districtOptions.map((item) => (
-                      <option key={item.id} value={item.district}>
-                        {item.district}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            </div>
+            <div className="agent-form__row">
+              <div className="agent-form__field">
+                <select name="state" value={form.state} onChange={handleChange} required>
+                  <option value="">State</option>
+                  {stateOptions.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="agent-form__field agent-form__field--full">
-                <input name="area" type="text" placeholder="Area" value={form.area} onChange={handleChange} required />
+              <div className="agent-form__field">
+                <select name="district" value={form.district} onChange={handleChange} required disabled={!form.state}>
+                  <option value="">District</option>
+                  {districtOptions.map((item) => (
+                    <option key={item.id} value={item.district}>
+                      {item.district}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <div className="agent-form__field agent-form__field--full">
-                <input name="address" type="text" placeholder="Address" value={form.address} onChange={handleChange} required />
-              </div>
-              {error ? <p className="agent-form__error">{error}</p> : null}
-              <div className="agent-form__actions">
-                <button type="submit" className="agent-form__submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "Submit"}
-                </button>
-              </div>
-            </form>
-          )}
+            </div>
+            <div className="agent-form__field agent-form__field--full">
+              <input name="area" type="text" placeholder="Area" value={form.area} onChange={handleChange} required />
+            </div>
+            <div className="agent-form__field agent-form__field--full">
+              <input name="address" type="text" placeholder="Address" value={form.address} onChange={handleChange} required />
+            </div>
+            <div className="agent-form__actions">
+              <button type="submit" className="agent-form__submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </div>
+          </form>
         </div>
       </section>
     </div>

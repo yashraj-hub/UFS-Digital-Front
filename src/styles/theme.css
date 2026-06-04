@@ -25,6 +25,41 @@ body {
   color: var(--text-color);
   background: var(--bg-color);
   overflow-x: clip;
+  cursor: none;
+}
+
+a, button, [role="button"], input, select, textarea, label {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 8px rgba(0,0,0,0.12);
+  transition: width 0.18s ease, height 0.18s ease, background 0.18s ease;
+  will-change: left, top;
+}
+
+.custom-cursor.is-hovering {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.custom-cursor.is-clicking {
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 h1,

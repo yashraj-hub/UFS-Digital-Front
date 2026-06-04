@@ -1,3 +1,20 @@
+.admin-shell,
+.admin-shell *,
+.admin-login,
+.admin-login * {
+  cursor: auto !important;
+}
+
+.admin-shell button,
+.admin-shell a,
+.admin-shell select,
+.admin-shell input,
+.admin-shell textarea,
+.admin-login button,
+.admin-login a {
+  cursor: pointer !important;
+}
+
 .admin-shell {
   min-height: 100vh;
   display: grid;
@@ -523,7 +540,6 @@ background: linear-gradient(90deg, #74c5da 0.000%, #74c5da 7.692%, #56b6d9 calc(
 
 .admin-table {
   width: 100%;
-  min-width: 980px;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -565,6 +581,281 @@ background: linear-gradient(90deg, #74c5da 0.000%, #74c5da 7.692%, #56b6d9 calc(
 
 .admin-table tr.is-clickable {
   cursor: pointer;
+}
+
+.admin-table tr.row-selected {
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+.admin-table tr.row-selected:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+}
+
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.admin-btn--outline {
+  background: transparent;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+/* Admin Details View (Inline) */
+.admin-header-icon-btn:hover {
+  background: #f1f5f9;
+}
+
+.admin-header-icon-btn i {
+  pointer-events: none;
+}
+
+.admin-details-view {
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.admin-details-view__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #edf1f5;
+}
+
+.admin-details-view__header h3 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.admin-details-view__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 2rem;
+}
+
+.admin-details-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: transparent;
+  padding: 0.5rem 0;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid #edf1f5;
+}
+
+.admin-details-item label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.admin-details-item p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.admin-details-item--wide {
+  grid-column: span 2;
+}
+
+.admin-details-item--full {
+  grid-column: span 2;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #edf1f5;
+}
+
+.admin-details-text {
+  font-size: 0.95rem !important;
+  line-height: 1.6;
+  font-weight: 400 !important;
+  color: #475569 !important;
+  white-space: pre-wrap;
+}
+
+.admin-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-badge--new {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Admin Modals */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-modal--confirm-dark {
+  background: #333333;
+  color: #ffffff;
+  border-radius: 1.25rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: modalEnter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.admin-modal--confirm-dark .admin-modal__header {
+  padding: 1.5rem 1.5rem 0.75rem;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.admin-modal--confirm-dark .admin-modal__header h3 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.admin-modal--confirm-dark .admin-modal__body {
+  padding: 0 1.5rem 1.5rem;
+  text-align: left;
+}
+
+.admin-modal--confirm-dark .admin-modal__body p {
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+
+.admin-modal--confirm-dark .admin-modal__footer {
+  padding: 0 1.5rem 1.5rem;
+  background: transparent;
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.75rem;
+}
+
+.admin-modal--confirm-dark .admin-btn--cancel {
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  width: auto;
+  min-width: 80px;
+}
+
+.admin-modal--confirm-dark .admin-btn--delete {
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.admin-modal--confirm-dark .admin-btn--delete:hover {
+  filter: brightness(1.1);
+}
+
+.admin-modal--confirm-dark .admin-btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-btn--outline:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.admin-btn--danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.admin-btn--danger:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+/* Modern Status Toggle Switch */
+.admin-status-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.admin-status-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.admin-status-toggle__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e2e8f0;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.admin-status-toggle__slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.admin-status-toggle input:checked + .admin-status-toggle__slider {
+  background-color: #2563eb;
+}
+
+.admin-status-toggle input:checked + .admin-status-toggle__slider:before {
+  transform: translateX(20px);
+}
+
+.admin-status-toggle input:disabled + .admin-status-toggle__slider {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .admin-table tr.is-clickable:hover td {

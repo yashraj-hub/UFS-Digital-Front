@@ -28,6 +28,13 @@ const navItems = [
     area: "contact-submissions",
   },
   {
+    to: "/admin/careers",
+    label: "Careers",
+    icon: "fa-briefcase",
+    area: "jobs",
+    altAreas: ["job-applications"],
+  },
+  {
     to: "/admin/bc-agents",
     label: "BC Agents",
     icon: "fa-id-card",
@@ -39,6 +46,12 @@ const navItems = [
     icon: "fa-user-shield",
     area: "admin-users",
     altAreas: ["roles"],
+  },
+  {
+    to: "/admin/activity",
+    label: "Activity Log",
+    icon: "fa-clock-rotate-left",
+    area: "dashboard",
   },
 ];
 

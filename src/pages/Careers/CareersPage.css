@@ -9,24 +9,789 @@
   border-bottom: none;
 }
 
-.careers-page__notice {
-  padding: 4rem 0 6rem;
+.careers-page__jobs {
+  padding: 2rem 0 6rem;
 }
 
-.careers-page__notice-inner {
-  max-width: 780px;
-  margin: 0 auto;
+.careers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4rem 2.5rem;
+  width: 100%;
 }
 
-.careers-page__notice p {
-  margin: 0;
-  color: #33475b;
-  font-size: 1.05rem;
-  line-height: 1.9;
+/* Premium Job Card Design (Team Card Style) */
+.job-card {
+  background: transparent;
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Background layer for the card */
+.job-card-bg {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  z-index: -1;
+  border-radius: 16px;
+}
+
+/* Creative Moving Border Effect on Hover */
+.job-card::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 40%,
+    #2563eb 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Mask layer to create thin border */
+.job-card-mask {
+  position: absolute;
+  inset: 2px;
+  background: #ffffff;
+  border-radius: 14px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+}
+
+.job-card:hover::before {
+  opacity: 1;
+  animation: border-beam 2.5s linear infinite;
+}
+
+.job-card:hover .job-card-mask {
+  opacity: 1;
+}
+
+@keyframes border-beam {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.job-card__hero {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.job-card__heroImage,
+.job-card__heroAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s ease;
+}
+
+.job-card:hover .job-card__heroImage {
+  transform: scale(1.08);
+}
+
+.job-card__heroAvatar {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #0f4c81 0%, #2563eb 100%);
+}
+
+.job-card__heroAvatar span {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.job-card__footer {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+
+.job-card:hover .job-card__footer {
+  background: #0f4c81;
+  box-shadow: 0 10px 30px rgba(15, 76, 129, 0.3);
+}
+
+.job-card__details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card__dept {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #2563eb;
+  margin-bottom: 4px;
+  display: block;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.job-card:hover .job-card__dept {
+  color: #fbbf24;
+}
+
+.job-card__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.job-card:hover .job-card__title {
+  color: #ffffff;
+}
+
+.job-card__meta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.job-card__meta-item {
+  font-size: 0.78rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s ease;
+}
+
+.job-card:hover .job-card__meta-item {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.job-card__meta-item i {
+  color: #fbbf24;
+  font-size: 0.85rem;
+}
+
+.job-card__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+/* New Badge Style matching image 1 */
+.job-card__badge-v2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #0f4c81;
+  border-radius: 8px;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(15, 76, 129, 0.2);
+}
+
+.job-card:hover .job-card__badge-v2 {
+  background: #ffffff;
+  color: #0f4c81;
+}
+
+.job-card__badge-v2-icon {
+  font-size: 1rem;
+  color: #fbbf24;
+}
+
+.job-card__badge-v2-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.job-card__badge-v2-number {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.job-card__badge-v2-text {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+  .careers-grid {
+    gap: 3rem 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .careers-page__notice {
-    padding: 3rem 0 4rem;
+  .careers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 1.5rem;
+  }
+  .job-card__hero {
+    height: 320px;
+  }
+}
+
+@media (max-width: 580px) {
+  .careers-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .job-card__hero {
+    height: 380px;
+  }
+}
+
+/* Application Form Section */
+.application-section {
+  padding: 3rem 0 6rem;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #0f4c81;
+}
+
+.application-container {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  background: #ffffff;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.job-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Aligned center with title */
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.job-detail-dept {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fbbf24; /* Website yellow color */
+  letter-spacing: 0.05em;
+  margin-bottom: 0; /* Removed gap */
+  display: block;
+}
+
+.job-detail-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin-top: -4px; /* Tightened gap with eyebrow */
+  margin-bottom: 1rem;
+}
+
+.job-detail-meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.job-detail-meta .meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #0f4c81;
+}
+
+.job-detail-meta i {
+  font-size: 0.95rem;
+  color: #fbbf24;
+}
+
+.apply-now-btn {
+  background: #0f4c81;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none; /* Removed initial shadow */
+}
+
+.apply-now-btn:hover {
+  background: #ff9800; /* Orange background */
+  color: #333333; /* Black text */
+  transform: none; /* No movement */
+  box-shadow: none; /* No shadow on hover */
+}
+
+.job-detail-content {
+  display: block; /* Removed grid to make it full width */
+  margin-top: 3rem;
+  width: 100%; /* Full width */
+  scroll-margin-top: 100px; /* Space for sticky header when scrolling */
+}
+
+.job-detail-body {
+  background: #ffffff;
+  text-align: justify; /* Justify text alignment */
+}
+
+.job-detail-body h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  color: #1a202c;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+/* Removed Sidebar Styles as they are no longer needed */
+.job-detail-sidebar {
+  display: none;
+}
+
+.application-form-wrapper {
+  background: transparent; /* Removed card background */
+  padding: 3rem 0; /* Removed side padding */
+  border-radius: 0;
+  box-shadow: none; /* Removed box shadow */
+  border: none; /* Removed border */
+  animation: slideInUp 0.4s ease;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.application-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.application-form-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.cancel-form-btn-circle {
+  background: transparent;
+  color: #1a202c;
+  border: 1px solid #e2e8f0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.cancel-form-btn-circle:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: rotate(90deg);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* Minimal Application Form (Contact Form Style) */
+.application-form-minimal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row-triple {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem 2.5rem;
+}
+
+.form-row-double {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 2.5rem;
+}
+
+.application-form-minimal .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.application-form-minimal .form-group.wide {
+  width: 100%;
+}
+
+/* Custom File Upload Styling V2 - Simple & Minimal */
+.custom-file-upload-v2 {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1.5px solid #dbe2ee;
+  position: relative;
+}
+
+.file-upload-label-v2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.file-upload-label-v2:hover {
+  color: #0f4c81;
+}
+
+.file-upload-label-v2 i {
+  font-size: 1.1rem;
+  color: #0f4c81;
+}
+
+.file-selected-display-v2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.file-selected-display-v2 i {
+  color: #ef4444; /* PDF Red */
+  font-size: 1.1rem;
+}
+
+.file-name-v2 {
+  font-size: 0.95rem;
+  color: #1e2633;
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clear-file-btn-v2 {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.clear-file-btn-v2:hover {
+  color: #ef4444;
+  transform: scale(1.1);
+}
+
+.application-form-minimal label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.application-form-minimal input,
+.application-form-minimal textarea {
+  width: 100%;
+  padding: 0.65rem 0;
+  border: none;
+  border-bottom: 1.5px solid #dbe2ee;
+  background: transparent;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s;
+  border-radius: 0;
+  outline: none;
+  font-family: inherit;
+}
+
+.application-form-minimal .file-input-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.application-form-minimal input:focus,
+.application-form-minimal textarea:focus {
+  border-bottom-color: #0f4c81;
+}
+
+.application-form-minimal input::placeholder,
+.application-form-minimal textarea::placeholder {
+  color: #c6c6c6;
+  font-size: 0.95rem;
+}
+
+.application-form-minimal textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.application-form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.application-form-minimal .submit-btn {
+  background: #0f4c81;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 0;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  display: block;
+  font-family: inherit;
+}
+
+.application-form-minimal .submit-btn:hover {
+  background: #38779e;
+  transform: translateY(-1px);
+}
+
+.application-form-minimal .submit-btn:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.72;
+}
+
+@media (max-width: 1024px) {
+  .form-row-triple {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row-triple,
+  .form-row-double {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Removed old Form Styles */
+.application-form, .form-grid, .form-group, .form-group.wide, .form-group label, .form-group input, .form-group textarea, .submit-btn {
+  /* These will be overridden by .application-form-minimal classes */
+}
+
+@media (max-width: 1024px) {
+  .job-detail-content {
+    grid-template-columns: 1fr;
+  }
+  .job-detail-header {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .apply-now-btn {
+    width: 100%;
+  }
+}
+
+.application-form__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #1a202c;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group.wide {
+  grid-column: span 2;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: #0f4c81;
+  box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1);
+}
+
+.submit-btn {
+  margin-top: 2rem;
+  background: #0f4c81;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #1e3a8a;
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.form-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.form-message.success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.form-message.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+@media (max-width: 1024px) {
+  .application-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-group.wide {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 580px) {
+  .careers-page__jobs {
+    padding: 1rem 0 4rem;
   }
 }

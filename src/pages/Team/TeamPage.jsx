@@ -88,7 +88,7 @@ function TeamPage() {
   return (
     <div className="team-page">
       <Seo {...pageSeo.team} />
-      <PageHero imageUrl="https://images.pexels.com/photos/14352326/pexels-photo-14352326.jpeg" />
+      <PageHero imageUrl="https://images.pexels.com/photos/14352326/pexels-photo-14352326.jpeg?auto=compress&cs=tinysrgb&w=1400&fit=crop" />
       <PageIntro
         eyebrow="Our Team"
         headingAs="h1"
@@ -109,6 +109,8 @@ function TeamPage() {
                     src={member.photo_url}
                     alt={member.name}
                     className="team-card__heroImage"
+                    loading="lazy"
+                    decoding="async"
                   />
                 ) : (
                   <div className="team-card__heroAvatar" aria-hidden="true">

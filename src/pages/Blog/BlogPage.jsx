@@ -38,7 +38,7 @@ function BlogPage() {
   return (
     <div className="blog-page">
       <Seo {...pageSeo.blog} />
-      <PageHero imageUrl="https://images.pexels.com/photos/27988858/pexels-photo-27988858.jpeg" />
+      <PageHero imageUrl="https://images.pexels.com/photos/27988858/pexels-photo-27988858.jpeg?auto=compress&cs=tinysrgb&w=1400&fit=crop" />
       <PageIntro
         eyebrow="Our Blog"
         headingAs="h1"
@@ -94,23 +94,32 @@ function BlogPage() {
                 className="blog-card-link"
                 aria-label={`Open blog: ${post.title}`}
               >
-                <article className="blog-card" tabIndex={-1}>
-                  <div className="blog-card__img-wrap">
+                <article className="blog-card">
+                  <div className="blog-card-bg" />
+                  <div className="blog-card-mask" />
+                  <div className="blog-card__hero">
                     {post.cover_image_url && (
-                      <img src={post.cover_image_url} alt={post.title} className="blog-card__img" />
+                      <img
+                        src={post.cover_image_url}
+                        alt={post.title}
+                        className="blog-card__heroImage"
+                        loading="lazy"
+                        decoding="async"
+                      />
                     )}
-                  </div>
-                  <div className="blog-card__body">
-                    <span className="blog-card__tag">{post.category_name || post.tag || ""}</span>
-                    <h2 className="blog-card__title">{post.title}</h2>
-                    <p className="blog-card__excerpt">{post.excerpt}</p>
                     <div className="blog-card__footer">
-                      <span className="blog-card__date">
-                        {post.published_at
-                          ? new Date(post.published_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })
-                          : ""}
-                      </span>
-                      <span className="blog-card__read-more">Read More →</span>
+                      <div className="blog-card__details">
+                        <div className="blog-card__top-meta">
+                          <p className="blog-card__dept">{post.category_name || post.tag || "Update"}</p>
+                          <span className="blog-card__date-top">
+                            {post.published_at
+                              ? new Date(post.published_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+                              : ""}
+                          </span>
+                        </div>
+                        <h3 className="blog-card__title">{post.title}</h3>
+                        <p className="blog-card__excerpt-two-line">{post.excerpt}</p>
+                      </div>
                     </div>
                   </div>
                 </article>

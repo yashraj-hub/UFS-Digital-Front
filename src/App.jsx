@@ -15,6 +15,7 @@ import AdminLoginPage from "./admin/pages/AdminLoginPage";
 import AdminOverviewPage from "./admin/pages/AdminOverviewPage";
 import AdminResourcePage from "./admin/pages/AdminResourcePage";
 import AdminUsersPage from "./admin/pages/AdminUsersPage";
+import AdminActivityPage from "./admin/pages/AdminActivityPage";
 
 function App() {
   return (
@@ -27,8 +28,11 @@ function App() {
           <Route path="team" element={<AdminResourcePage resourceKey="team-members" />} />
           <Route path="partners" element={<AdminResourcePage resourceKey="partners" />} />
           <Route path="contact" element={<AdminResourcePage resourceKey="contact-submissions" />} />
+          <Route path="careers" element={<AdminResourcePage resourceKey="jobs" />} />
+          <Route path="job-applications" element={<AdminResourcePage resourceKey="job-applications" />} />
           <Route path="bc-agents" element={<AdminResourcePage resourceKey="bc-agent-applications" />} />
           <Route path="users" element={<AdminUsersPage />} />
+          <Route path="activity" element={<AdminActivityPage />} />
           <Route path="roles" element={<Navigate to="/admin/users" replace />} />
         </Route>
       </Route>

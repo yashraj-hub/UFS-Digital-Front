@@ -47,7 +47,7 @@ async function request(path, options = {}) {
 }
 
 export const adminApi = {
-  listBlogCategories: () => request("/blog-categories"),
+  listBlogCategories: () => request("/admin/content/blog-categories"),
 
   login: (credentials) =>
     request("/admin/auth/login", {
@@ -107,7 +107,14 @@ export const adminApi = {
       method: "DELETE",
     }),
 
-  list: (resource) => request(`/admin/content/${resource}`),
+  list: (resource, params = {}) => {
+    let path = `/admin/content/${resource}`;
+    const query = new URLSearchParams(params).toString();
+    if (query) {
+      path += `?${query}`;
+    }
+    return request(path);
+  },
 
   create: (resource, data) =>
     request(`/admin/content/${resource}`, {
@@ -125,4 +132,15 @@ export const adminApi = {
     request(`/admin/content/${resource}/${id}`, {
       method: "DELETE",
     }),
+
+  bulkDelete: (resource, ids) =>
+    request(`/admin/content/${resource}/bulk-delete`, {
+      method: "POST",
+      body: JSON.stringify({ ids }),
+    }),
+
+  getActivityLogs: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/admin/activity-logs${qs ? `?${qs}` : ""}`);
+  },
 };
