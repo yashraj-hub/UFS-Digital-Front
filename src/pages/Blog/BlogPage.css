@@ -206,11 +206,11 @@
 }
 
 .blog-card:hover .blog-card__dept {
-  color: #fbbf24;
+  color: #fff;
 }
 
 .blog-card:hover .blog-card__title {
-  color: #ffffff;
+  color: #fbbf24;
 }
 
 .blog-card__side {
