@@ -17,7 +17,7 @@ async function request(path, options = {}) {
   const headers = new Headers(options.headers || {});
   const token = getAdminToken();
 
-  if (!headers.has("content-type") && options.body) {
+  if (!headers.has("content-type") && options.body && !(options.body instanceof FormData)) {
     headers.set("content-type", "application/json");
   }
 
@@ -138,6 +138,15 @@ export const adminApi = {
       method: "POST",
       body: JSON.stringify({ ids }),
     }),
+
+  uploadTeamPhoto: (file) => {
+    const formData = new FormData();
+    formData.append("photo", file);
+    return request("/admin/content/team-members/upload-photo", {
+      method: "POST",
+      body: formData,
+    });
+  },
 
   getActivityLogs: (params = {}) => {
     const qs = new URLSearchParams(params).toString();

@@ -53,7 +53,7 @@ const resourceConfig = {
       { name: "name", label: "Name", type: "text", required: true },
       { name: "role", label: "Role", type: "text", required: true },
       { name: "experience_years", label: "Experience (years)", type: "number", defaultValue: 0 },
-      { name: "photo_url", label: "Photo URL", type: "url" },
+      { name: "photo_url", label: "Photo", type: "photo-upload" },
       { name: "linkedin_url", label: "LinkedIn URL", type: "url" },
       { name: "bio", label: "Bio", type: "textarea", wide: true },
       { name: "display_order", label: "Display Order", type: "number", defaultValue: 0 },
@@ -355,6 +355,61 @@ function preparePayload(config, form) {
   );
 }
 
+function PhotoUploadControl({ value, onChange, readOnly }) {
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  const handleFile = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const result = await adminApi.uploadTeamPhoto(file);
+      onChange(result.photo_url);
+    } catch (err) {
+      setUploadError(err.message);
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      {value && (
+        <img
+          src={value}
+          alt="Team member photo"
+          style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 8, border: "1px solid #e2e8f0" }}
+        />
+      )}
+      <input
+        type="url"
+        value={value ?? ""}
+        placeholder="Paste image URL or upload below"
+        readOnly={readOnly}
+        onChange={(e) => onChange(e.target.value)}
+        style={{ width: "100%" }}
+      />
+      {!readOnly && (
+        <label style={{ display: "inline-flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: "0.85rem", fontWeight: 600, color: "#2563eb" }}>
+          <i className="fa-solid fa-upload" aria-hidden="true" />
+          {uploading ? "Uploading..." : "Upload photo"}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            style={{ display: "none" }}
+            disabled={uploading}
+            onChange={handleFile}
+          />
+        </label>
+      )}
+      {uploadError && <span style={{ color: "#ef4444", fontSize: "0.82rem" }}>{uploadError}</span>}
+    </div>
+  );
+}
+
 function FieldControl({ field, value, onChange, readOnly = false, blogCategories = [] }) {
   const commonProps = {
     id: field.name,
@@ -364,6 +419,16 @@ function FieldControl({ field, value, onChange, readOnly = false, blogCategories
     readOnly: field.readOnly || readOnly,
     onChange: (event) => onChange(field.name, event.target.value),
   };
+
+  if (field.type === "photo-upload") {
+    return (
+      <PhotoUploadControl
+        value={value}
+        onChange={(url) => onChange(field.name, url)}
+        readOnly={field.readOnly || readOnly}
+      />
+    );
+  }
 
   if (field.type === "quill") {
     return readOnly
