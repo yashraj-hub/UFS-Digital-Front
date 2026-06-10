@@ -376,26 +376,35 @@ function PhotoUploadControl({ value, onChange, readOnly }) {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       {value && (
-        <img
-          src={value}
-          alt="Team member photo"
-          style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 8, border: "1px solid #e2e8f0" }}
-        />
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <img
+            src={value}
+            alt="Team member photo"
+            style={{ width: 72, height: 72, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "1px solid #e2e8f0" }}
+          />
+          {!readOnly && (
+            <button
+              type="button"
+              onClick={() => onChange("")}
+              style={{ fontSize: "0.8rem", color: "#ef4444", background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}
+            >
+              Remove
+            </button>
+          )}
+        </div>
       )}
-      <input
-        type="url"
-        value={value ?? ""}
-        placeholder="Paste image URL or upload below"
-        readOnly={readOnly}
-        onChange={(e) => onChange(e.target.value)}
-        style={{ width: "100%" }}
-      />
       {!readOnly && (
-        <label style={{ display: "inline-flex", alignItems: "center", gap: 6, cursor: "pointer", fontSize: "0.85rem", fontWeight: 600, color: "#2563eb" }}>
-          <i className="fa-solid fa-upload" aria-hidden="true" />
-          {uploading ? "Uploading..." : "Upload photo"}
+        <label style={{
+          display: "inline-flex", alignItems: "center", gap: 8, cursor: uploading ? "default" : "pointer",
+          fontSize: "0.88rem", fontWeight: 600, color: "#fff",
+          background: uploading ? "#94a3b8" : "#2563eb",
+          padding: "8px 16px", borderRadius: 8, width: "fit-content",
+          transition: "background 0.2s"
+        }}>
+          <i className="fa-solid fa-cloud-arrow-up" aria-hidden="true" />
+          {uploading ? "Uploading..." : value ? "Change Photo" : "Upload Photo"}
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp"
